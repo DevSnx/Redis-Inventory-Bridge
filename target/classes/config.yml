@@ -1,0 +1,5 @@
+redis:
+  host: "localhost"
+  port: 6379
+  username: ""  # Wenn Redis kein Username benötigt, diesen Eintrag leer lassen
+  password: ""  # Leere Felder, falls keine Authentifizierung benötigt
