@@ -1,4 +1,0 @@
-name: Redis-Inventory-Bridge
-version: '1.0-SNAPSHOT'
-main: de.devsnx.redisInventoryBridge.RedisInventoryBridge
-api-version: '1.21'
