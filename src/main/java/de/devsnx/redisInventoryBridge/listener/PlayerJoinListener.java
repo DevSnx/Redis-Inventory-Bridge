@@ -1,5 +1,6 @@
 package de.devsnx.redisInventoryBridge.listener;
 
+import de.devsnx.redisInventoryBridge.RedisInventoryBridge;
 import de.devsnx.redisInventoryBridge.manager.RedisManager;
 import de.devsnx.redisInventoryBridge.utils.InventoryUtils;
 import org.bukkit.Bukkit;
@@ -44,6 +45,11 @@ public class PlayerJoinListener implements Listener {
             ItemStack[] inventory = InventoryUtils.deserializeInventory(serializedInventory);
             player.getInventory().setContents(inventory);
             logger.info("Inventar für Spieler " + player.getName() + " erfolgreich aus Redis geladen.");
+
+            if(RedisInventoryBridge.getInstance().getConfig().getBoolean("joinmessage.enable") == true) {
+                player.sendMessage(RedisInventoryBridge.getInstance().getConfig().getString("joinmessage.message").replace("&", "§"));
+            }
+
             player.sendMessage("Inventar erfolgreich aus Redis geladen.");
         } else {
             logger.info("Kein gespeichertes Inventar für Spieler " + player.getName() + " gefunden.");
