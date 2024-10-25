@@ -1,6 +1,6 @@
 name: Redis-Inventory-Bridge
-version: '1.0'
+version: '1.2'
 main: de.devsnx.redisInventoryBridge.RedisInventoryBridge
 api-version: '1.21'
 
-redis-supported: true
+folia-supported: true
