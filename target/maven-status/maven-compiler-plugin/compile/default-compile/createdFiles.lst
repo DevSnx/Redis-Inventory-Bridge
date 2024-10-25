@@ -1,0 +1,6 @@
+de\devsnx\redisInventoryBridge\listener\PlayerQuitListener.class
+de\devsnx\redisInventoryBridge\manager\RedisManager.class
+de\devsnx\redisInventoryBridge\RedisInventoryBridge.class
+de\devsnx\redisInventoryBridge\listener\PlayerJoinListener.class
+de\devsnx\redisInventoryBridge\utils\InventoryUtils.class
+de\devsnx\redisInventoryBridge\listener\PlayerKickListener.class
