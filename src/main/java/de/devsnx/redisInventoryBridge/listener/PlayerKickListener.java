@@ -1,6 +1,8 @@
 package de.devsnx.redisInventoryBridge.listener;
 
+import de.devsnx.redisInventoryBridge.RedisInventoryBridge;
 import de.devsnx.redisInventoryBridge.manager.RedisManager;
+import de.devsnx.redisInventoryBridge.utils.InventoryUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +32,23 @@ public class PlayerKickListener implements Listener {
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
         redisManager.savePlayerInventory(event.getPlayer());
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("hearts") == true) {
+            redisManager.savePlayerHearts(event.getPlayer().getUniqueId().toString(), event.getPlayer().getHealth());
+        }
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("foodLevel") == true) {
+            redisManager.savePlayerFoodLevel(event.getPlayer().getUniqueId().toString(), event.getPlayer().getFoodLevel());
+        }
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("expLevel") == true) {
+            redisManager.savePlayerExpLevel(event.getPlayer().getUniqueId().toString(), event.getPlayer().getLevel());
+        }
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("potions") == true) {
+            redisManager.savePlayerPotions(event.getPlayer().getUniqueId().toString(), event.getPlayer());
+        }
+
     }
 
 }

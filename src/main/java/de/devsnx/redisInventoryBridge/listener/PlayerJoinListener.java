@@ -30,30 +30,48 @@ public class PlayerJoinListener implements Listener {
 
     /**
      * Event-Handler für das Joinen eines Spielers.
-     * Lädt das Inventar des Spielers aus Redis und stellt es wieder her.
      */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         String playerUUID = player.getUniqueId().toString();
-
-        // Abrufen des gespeicherten Inventars aus Redis
         String serializedInventory = redisManager.getInventory(playerUUID);
 
         if (serializedInventory != null) {
-            // Deserialisiere und setze das Inventar des Spielers
             ItemStack[] inventory = InventoryUtils.deserializeInventory(serializedInventory);
             player.getInventory().setContents(inventory);
-            logger.info("Inventar für Spieler " + player.getName() + " erfolgreich aus Redis geladen.");
 
             if(RedisInventoryBridge.getInstance().getConfig().getBoolean("joinmessage.enable") == true) {
                 player.sendMessage(RedisInventoryBridge.getInstance().getConfig().getString("joinmessage.message").replace("&", "§"));
             }
+        }
 
-            player.sendMessage("Inventar erfolgreich aus Redis geladen.");
-        } else {
-            logger.info("Kein gespeichertes Inventar für Spieler " + player.getName() + " gefunden.");
-            player.sendMessage("Kein gespeichertes Inventar gefunden.");
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("hearts") == true) {
+            String hearts = redisManager.getPlayerHearts(playerUUID);
+            if (hearts != null) {
+                player.setHealth(Double.parseDouble(hearts));
+            }
+        }
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("foodLevel") == true) {
+            String foodLevel = redisManager.getPlayerFoodLevel(playerUUID);
+            if (foodLevel != null) {
+                player.setFoodLevel(Integer.parseInt(foodLevel));
+            }
+        }
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("expLevel") == true) {
+            String expLevel = redisManager.getPlayerExpLevel(playerUUID);
+            if (expLevel != null) {
+                player.setLevel(Integer.parseInt(expLevel));
+            }
+        }
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("potions") == true) {
+            String potions = redisManager.getPlayerPotions(playerUUID);
+            if (potions != null) {
+                InventoryUtils.applyPotionEffects(player, potions);
+            }
         }
     }
 }

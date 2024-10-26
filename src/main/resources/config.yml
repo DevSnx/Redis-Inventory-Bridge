@@ -1,7 +1,7 @@
 ##################################
 #                                #
 #     Redis-Bridge-Inventory     #
-#          v1.0 by DevSnx        #
+#          v1.3 by DevSnx        #
 #                                #
 ##################################
 
@@ -12,7 +12,13 @@ redis:
   username: ""
   password: ""
 
-# Player Join Message
+# Saves (Inventory saved auto)
+hearts: true
+foodLevel: true
+expLevel: true
+potions: true
+
+# Player Join Message (Use Color codes with &)
 joinmessage:
   enable: true
-  message: 'Inventory was Loaded from Redis-Inventory-Bridge'
+  message: '&aYour inventory has been loaded successfully'

@@ -9,6 +9,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * @author Marvin Hänel (DevSnx)
@@ -50,41 +51,9 @@ public class RedisManager {
             }
 
             jedis.connect();
-            System.out.println("Verbindung zu Redis hergestellt: " + host + ":" + port);
+            System.out.println("Connected to Redis: " + host + ":" + port);
         } catch (JedisConnectionException e) {
-            System.err.println("Fehler bei der Verbindung zu Redis: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Speichert das Inventar eines Spielers in Redis.
-     *
-     * @param playerUUID Die UUID des Spielers.
-     * @param inventoryData Die serialisierten Inventardaten.
-     */
-    public void saveInventory(String playerUUID, String inventoryData) {
-        try {
-            jedis.hset("player:" + playerUUID + ":inventory", "data", inventoryData);
-            System.out.println("Inventar für Spieler " + playerUUID + " in Redis gespeichert.");
-        } catch (JedisConnectionException e) {
-            System.err.println("Fehler beim Speichern des Inventars in Redis: " + e.getMessage());
-            reconnect();
-        }
-    }
-
-    /**
-     * Ruft das gespeicherte Inventar eines Spielers aus Redis ab.
-     *
-     * @param playerUUID Die UUID des Spielers.
-     * @return Die serialisierten Inventardaten.
-     */
-    public String getInventory(String playerUUID) {
-        try {
-            return jedis.hget("player:" + playerUUID + ":inventory", "data");
-        } catch (JedisConnectionException e) {
-            System.err.println("Fehler beim Abrufen des Inventars von Redis: " + e.getMessage());
-            reconnect();
-            return null;
+            System.err.println("Error connecting to Redis: " + e.getMessage());
         }
     }
 
@@ -94,7 +63,7 @@ public class RedisManager {
     public void close() {
         if (jedis != null) {
             jedis.close();
-            System.out.println("Redis-Verbindung geschlossen.");
+            System.out.println("Redis connection closed.");
         }
     }
 
@@ -102,8 +71,35 @@ public class RedisManager {
      * Versucht, die Verbindung zu Redis neu herzustellen.
      */
     private void reconnect() {
-        System.out.println("Versuche, die Verbindung zu Redis neu herzustellen...");
+        System.out.println("Trying to reconnect to Redis...");
         connect();
+    }
+
+    /**
+     * Speichert das Inventar eines Spielers in Redis.
+     */
+    public void saveInventory(String playerUUID, String inventoryData) {
+        try {
+            jedis.hset("player:" + playerUUID + ":inventory", "data", inventoryData);
+            System.out.println("Inventory saved from " + playerUUID);
+        } catch (JedisConnectionException e) {
+            System.err.println("Error saving inventory from " + playerUUID + " in Redis: " + e.getMessage());
+            reconnect();
+        }
+    }
+
+
+    /**
+     * Ruft das gespeicherte Inventar eines Spielers aus Redis ab.
+     */
+    public String getInventory(String playerUUID) {
+        try {
+            return jedis.hget("player:" + playerUUID + ":inventory", "data");
+        } catch (JedisConnectionException e) {
+            System.err.println("Error getting inventory from " + playerUUID + " in Redis: " + e.getMessage());
+            reconnect();
+            return null;
+        }
     }
 
     /**
@@ -117,7 +113,66 @@ public class RedisManager {
 
         // Speichern des serialisierten Inventars in Redis
         saveInventory(playerUUID, serializedInventory);
-        logger.info("Inventar für Spieler " + player.getName() + " erfolgreich in Redis gespeichert.");
+        logger.info("Inventory from " + player.getName() + " successfully saved in Redis.");
+    }
+
+    /**
+     * Speichert das Herzlevel des Spielers in Redis.
+     */
+    public void savePlayerHearts(String playerUUID, double health) {
+        jedis.hset("player:" + playerUUID + ":attributes", "hearts", String.valueOf(health));
+    }
+
+    /**
+     * Ruft das Herzlevel des Spielers aus Redis ab.
+     */
+    public String getPlayerHearts(String playerUUID) {
+        return jedis.hget("player:" + playerUUID + ":attributes", "hearts");
+    }
+
+    /**
+     * Speichert das Essenlevel des Spielers in Redis.
+     */
+    public void savePlayerFoodLevel(String playerUUID, int foodLevel) {
+        jedis.hset("player:" + playerUUID + ":attributes", "foodLevel", String.valueOf(foodLevel));
+    }
+
+    /**
+     * Ruft das Essenlevel des Spielers aus Redis ab.
+     */
+    public String getPlayerFoodLevel(String playerUUID) {
+        return jedis.hget("player:" + playerUUID + ":attributes", "foodLevel");
+    }
+
+    /**
+     * Speichert das Erfahrungslevel des Spielers in Redis.
+     */
+    public void savePlayerExpLevel(String playerUUID, int expLevel) {
+        jedis.hset("player:" + playerUUID + ":attributes", "expLevel", String.valueOf(expLevel));
+    }
+
+    /**
+     * Ruft das Erfahrungslevel des Spielers aus Redis ab.
+     */
+    public String getPlayerExpLevel(String playerUUID) {
+        return jedis.hget("player:" + playerUUID + ":attributes", "expLevel");
+    }
+
+    /**
+     * Speichert die aktiven Potion-Effekte des Spielers in Redis.
+     */
+    public void savePlayerPotions(String playerUUID, Player player) {
+        String serializedPotions = player.getActivePotionEffects().stream()
+                .map(p -> p.getType().getName() + ":" + p.getDuration() + ":" + p.getAmplifier())
+                .collect(Collectors.joining(","));
+        jedis.hset("player:" + playerUUID + ":attributes", "potions", serializedPotions);
+    }
+
+    /**
+     * Ruft die gespeicherten Potion-Effekte des Spielers aus Redis ab.
+     */
+    public String getPlayerPotions(String playerUUID) {
+        return jedis.hget("player:" + playerUUID + ":attributes", "potions");
     }
 
 }
