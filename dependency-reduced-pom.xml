@@ -4,7 +4,7 @@
   <groupId>de.devsnx</groupId>
   <artifactId>Redis-Inventory-Bridge</artifactId>
   <name>Redis-Inventory-Bridge</name>
-  <version>1.3-SNASHOT</version>
+  <version>1.3-STABLE</version>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
