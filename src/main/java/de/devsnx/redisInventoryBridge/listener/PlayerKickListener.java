@@ -46,7 +46,7 @@ public class PlayerKickListener implements Listener {
         }
 
         if(RedisInventoryBridge.getInstance().getConfig().getBoolean("potions") == true) {
-            redisManager.savePlayerPotions(event.getPlayer().getUniqueId().toString(), event.getPlayer());
+            redisManager.savePlayerPotions(event.getPlayer());
         }
 
     }

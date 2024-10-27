@@ -161,11 +161,11 @@ public class RedisManager {
     /**
      * Speichert die aktiven Potion-Effekte des Spielers in Redis.
      */
-    public void savePlayerPotions(String playerUUID, Player player) {
+    public void savePlayerPotions(Player player) {
         String serializedPotions = player.getActivePotionEffects().stream()
                 .map(p -> p.getType().getName() + ":" + p.getDuration() + ":" + p.getAmplifier())
                 .collect(Collectors.joining(","));
-        jedis.hset("player:" + playerUUID + ":attributes", "potions", serializedPotions);
+        jedis.hset("player:" + player.getUniqueId().toString() + ":attributes", "potions", serializedPotions);
     }
 
     /**

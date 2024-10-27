@@ -46,28 +46,28 @@ public class PlayerJoinListener implements Listener {
             }
         }
 
-        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("hearts") == true) {
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.hearts") == true) {
             String hearts = redisManager.getPlayerHearts(playerUUID);
             if (hearts != null) {
                 player.setHealth(Double.parseDouble(hearts));
             }
         }
 
-        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("foodLevel") == true) {
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.foodLevel") == true) {
             String foodLevel = redisManager.getPlayerFoodLevel(playerUUID);
             if (foodLevel != null) {
                 player.setFoodLevel(Integer.parseInt(foodLevel));
             }
         }
 
-        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("expLevel") == true) {
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.expLevel") == true) {
             String expLevel = redisManager.getPlayerExpLevel(playerUUID);
             if (expLevel != null) {
                 player.setLevel(Integer.parseInt(expLevel));
             }
         }
 
-        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("potions") == true) {
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.potions") == true) {
             String potions = redisManager.getPlayerPotions(playerUUID);
             if (potions != null) {
                 InventoryUtils.applyPotionEffects(player, potions);

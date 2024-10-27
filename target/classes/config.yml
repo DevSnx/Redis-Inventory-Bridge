@@ -13,10 +13,11 @@ redis:
   password: ""
 
 # Saves (Inventory saved auto)
-hearts: true
-foodLevel: true
-expLevel: true
-potions: true
+saves:
+  hearts: true
+  foodLevel: true
+  expLevel: true
+  potions: true
 
 # Player Join Message (Use Color codes with &)
 joinmessage:

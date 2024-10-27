@@ -1,6 +1,8 @@
 package de.devsnx.redisInventoryBridge.listener;
 
+import de.devsnx.redisInventoryBridge.RedisInventoryBridge;
 import de.devsnx.redisInventoryBridge.manager.RedisManager;
+import de.devsnx.redisInventoryBridge.utils.InventoryUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +32,23 @@ public class PlayerQuitListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         redisManager.savePlayerInventory(event.getPlayer());
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.hearts") == true) {
+            redisManager.savePlayerHearts(event.getPlayer().getUniqueId().toString(), event.getPlayer().getHealth());
+        }
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.foodLevel") == true) {
+           redisManager.savePlayerFoodLevel(event.getPlayer().getUniqueId().toString(), event.getPlayer().getFoodLevel());
+        }
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.expLevel") == true) {
+            redisManager.savePlayerExpLevel(event.getPlayer().getUniqueId().toString(), event.getPlayer().getLevel());
+        }
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.potions") == true) {
+            redisManager.savePlayerPotions(event.getPlayer());
+        }
+
     }
 
 }
