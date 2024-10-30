@@ -1,7 +1,7 @@
 ##################################
 #                                #
 #     Redis-Bridge-Inventory     #
-#          v1.3 by DevSnx        #
+#          v1.4 by DevSnx        #
 #                                #
 ##################################
 
@@ -16,6 +16,7 @@ redis:
 saves:
   hearts: true
   foodLevel: true
+  exp: true
   expLevel: true
   potions: true
 

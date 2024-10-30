@@ -45,6 +45,10 @@ public class PlayerQuitListener implements Listener {
             redisManager.savePlayerExpLevel(event.getPlayer().getUniqueId().toString(), event.getPlayer().getLevel());
         }
 
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.exp") == true) {
+            redisManager.savePlayerExp(event.getPlayer().getUniqueId().toString(), event.getPlayer().getExp());
+        }
+
         if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.potions") == true) {
             redisManager.savePlayerPotions(event.getPlayer());
         }

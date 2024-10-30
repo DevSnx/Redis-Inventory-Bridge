@@ -33,20 +33,24 @@ public class PlayerKickListener implements Listener {
     public void onPlayerKick(PlayerKickEvent event) {
         redisManager.savePlayerInventory(event.getPlayer());
 
-        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("hearts") == true) {
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.hearts") == true) {
             redisManager.savePlayerHearts(event.getPlayer().getUniqueId().toString(), event.getPlayer().getHealth());
         }
 
-        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("foodLevel") == true) {
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.foodLevel") == true) {
             redisManager.savePlayerFoodLevel(event.getPlayer().getUniqueId().toString(), event.getPlayer().getFoodLevel());
         }
 
-        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("expLevel") == true) {
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.expLevel") == true) {
             redisManager.savePlayerExpLevel(event.getPlayer().getUniqueId().toString(), event.getPlayer().getLevel());
         }
 
-        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("potions") == true) {
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.potions") == true) {
             redisManager.savePlayerPotions(event.getPlayer());
+        }
+
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.xp") == true) {
+            redisManager.savePlayerExp(event.getPlayer().getUniqueId().toString(), event.getPlayer().getExp());
         }
 
     }

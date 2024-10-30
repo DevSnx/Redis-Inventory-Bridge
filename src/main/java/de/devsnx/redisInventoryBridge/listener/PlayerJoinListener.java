@@ -67,6 +67,13 @@ public class PlayerJoinListener implements Listener {
             }
         }
 
+        if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.exp") == true) {
+            String exp = redisManager.getPlayerExp(playerUUID);
+            if (exp != null) {
+                player.setExp(Integer.parseInt(exp));
+            }
+        }
+
         if(RedisInventoryBridge.getInstance().getConfig().getBoolean("saves.potions") == true) {
             String potions = redisManager.getPlayerPotions(playerUUID);
             if (potions != null) {

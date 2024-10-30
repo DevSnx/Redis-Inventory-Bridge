@@ -152,6 +152,21 @@ public class RedisManager {
     }
 
     /**
+     * Speichert das Erfahrung des Spielers in Redis.
+     */
+    public void savePlayerExp(String playerUUID, float exp) {
+        jedis.hset("player:" + playerUUID + ":attributes", "exp", String.valueOf(exp));
+    }
+
+    /**
+     * Ruft das Erfahrung des Spielers aus Redis ab.
+     */
+    public String getPlayerExp(String playerUUID) {
+        return jedis.hget("player:" + playerUUID + ":attributes", "exp");
+    }
+
+
+    /**
      * Ruft das Erfahrungslevel des Spielers aus Redis ab.
      */
     public String getPlayerExpLevel(String playerUUID) {

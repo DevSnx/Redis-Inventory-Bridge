@@ -1,5 +1,5 @@
 name: Redis-Inventory-Bridge
-version: '1.3'
+version: '1.4'
 main: de.devsnx.redisInventoryBridge.RedisInventoryBridge
 api-version: '1.21'
 

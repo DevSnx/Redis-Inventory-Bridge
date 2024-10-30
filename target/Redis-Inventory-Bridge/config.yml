@@ -1,24 +1,23 @@
 ##################################
 #                                #
 #     Redis-Bridge-Inventory     #
-#          v1.4 by DevSnx        #
+#          v1.3 by DevSnx        #
 #                                #
 ##################################
 
-# Redis Server Connection
 redis:
   host: "localhost"
   port: 6379
   username: ""
-  password: ""
+  password: "jkhgfdsokluigfdslkjgdslkijh"
+
 
 # Saves (Inventory saved auto)
-saves:
-  hearts: true
-  foodLevel: true
-  exp: true
-  expLevel: true
-  potions: true
+hearts: true
+foodLevel: true
+exp: true
+expLevel: true
+potions: true
 
 # Player Join Message (Use Color codes with &)
 joinmessage:
